@@ -18,25 +18,34 @@ const slides = [
   },
 ];
 
+// Default index for the current slide
 let currentSlideIndex = 0;
+
+// Path for the slideshow's images
 const slidesDirectory = `./assets/images/slideshow/`;
+
+// Select the banner paragraph
 const bannerText = document.querySelector(`#banner p`);
+// Select the banner image
 const bannerImage = document.querySelector(`.banner-img`);
 
-//Adding bullet points
+// Bullet point management
 const dotsContainer = document.querySelector(`.dots`);
 
 for (let i = 0; i < slides.length; i++) {
+
   const dot = document.createElement(`div`);
-  dot.className = `dot ${i === 0 ? `dot_selected` : ``}`;
+  dot.className = `dot ${i === 0 ? `dot_selected` : ``}`; // if index is 0 add class dot_selected, else stay empty
   dot.addEventListener(`click`, () => {
     updateCarousel(i)
   });
   dotsContainer.append(dot);   
 }
 
+// Select all div with .dot class
 const dots = dotsContainer.querySelectorAll(`.dot`);
 
+// Right arrow
 const arrowRight = document.getElementById(`arrow_right`);
 arrowRight.addEventListener(`click`, (event) => {
   event.preventDefault();
@@ -44,6 +53,7 @@ arrowRight.addEventListener(`click`, (event) => {
   updateCarousel(nextSlideIndex)
 });
 
+// Left arrow
 const arrowLeft = document.getElementById(`arrow_left`);
 arrowLeft.addEventListener(`click`, (event) => {
   event.preventDefault();
@@ -52,10 +62,10 @@ arrowLeft.addEventListener(`click`, (event) => {
 });
 
 
+// Carousel slides update
 function updateCarousel(slideIndex) {
 	
 	const slide = slides[slideIndex]  
-	if (slide === undefined) return
 	
 	bannerImage.src = slidesDirectory + slide.image;
 	bannerText.innerHTML = slide.tagLine;
