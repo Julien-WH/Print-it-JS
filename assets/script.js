@@ -18,51 +18,50 @@ const slides = [
   },
 ];
 
-let i = 0;
-
-const bannerDiv = document.querySelector(`#banner p`);
+let currentSlideIndex = 0;
 const slidesDirectory = `./assets/images/slideshow/`;
-
-const bannerText = slides[0].tagLine;
-bannerDiv.innerHTML = bannerText;
-
+const bannerText = document.querySelector(`#banner p`);
 const bannerImage = document.querySelector(`.banner-img`);
-bannerImage.src = slidesDirectory + slides[0].image;
 
-// Increment slide on right arrow click
+//Adding bullet points
+const dotsContainer = document.querySelector(`.dots`);
+
+for (let i = 0; i < slides.length; i++) {
+  const dot = document.createElement(`div`);
+  dot.className = `dot ${i === 0 ? `dot_selected` : ``}`;
+  dot.addEventListener(`click`, () => {
+    updateCarousel(i)
+  });
+  dotsContainer.append(dot);   
+}
+
+const dots = dotsContainer.querySelectorAll(`.dot`);
+
 const arrowRight = document.getElementById(`arrow_right`);
 arrowRight.addEventListener(`click`, (event) => {
   event.preventDefault();
-  slideBanner(arrowRight);
+  const nextSlideIndex = currentSlideIndex < slides.length - 1 ? currentSlideIndex + 1 : 0;
+  updateCarousel(nextSlideIndex)
 });
 
 const arrowLeft = document.getElementById(`arrow_left`);
 arrowLeft.addEventListener(`click`, (event) => {
   event.preventDefault();
-  slideBanner(arrowLeft);
+  const nextSlideIndex = (currentSlideIndex || slides.length) - 1;
+  updateCarousel(nextSlideIndex)
 });
 
-function slideBanner(arrowDirection) {
-  switch (arrowDirection) {
-    case arrowLeft:
-      i = (i || slides.length) - 1;
-      console.log(i);
-      break;
-    case arrowRight:
-      i = i < slides.length - 1 ? i + 1 : 0;
-      break;
-  }
 
-  dotSelected[i].classList.add(`dot_selected`)
-//   dotSelected[i].classList.remove(`dot_selected`)
-  bannerImage.src = slidesDirectory + slides[i].image;
+function updateCarousel(slideIndex) {
+	
+	const slide = slides[slideIndex]  
+	if (slide === undefined) return
+	
+	bannerImage.src = slidesDirectory + slide.image;
+	bannerText.innerHTML = slide.tagLine;
+  
+	document.querySelector(`.dot_selected`)?.classList.remove(`dot_selected`);
+	dots[slideIndex].classList.add(`dot_selected`);
+
+	currentSlideIndex = slideIndex
 }
-
-const dotsDiv = document.querySelector(`.dots`);
-// dotsDiv.innerHTML = addBulletsPoints()
-
-for (let index = 0; index < slides.length; index++) {
-  dotsDiv.innerHTML += `<span class="dot"></span>`;
-}
-
-const dotSelected = document.querySelectorAll(`.dot`)
