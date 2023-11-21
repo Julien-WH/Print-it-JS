@@ -32,14 +32,18 @@ const bannerImage = document.querySelector(`.banner-img`);
 // Bullet point management
 const dotsContainer = document.querySelector(`.dots`);
 
+if (typeof slides === `undefined`) { 
+  console.warn("Tableau inexsistant") 
+} // checking if slides array exists
+else {
 for (let i = 0; i < slides.length; i++) {
-
   const dot = document.createElement(`div`);
   dot.className = `dot ${i === 0 ? `dot_selected` : ``}`; // if index is 0 add class dot_selected, else stay empty
   dot.addEventListener(`click`, () => {
     updateCarousel(i)
   });
   dotsContainer.append(dot);   
+}
 }
 
 // Select all div with .dot class
